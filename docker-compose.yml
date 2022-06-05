@@ -1,11 +1,4 @@
 services:
-  api:
-    container_name: spotify-composer-api
-    build: .
-    volumes:
-      - .:/home/api
-      - /home/api/node_modules
-
   redis:
     container_name: spotify-composer-redis
     image: redis
