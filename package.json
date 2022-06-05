@@ -7,6 +7,7 @@
     "@types/node": "^17.0.39",
     "nodemon": "^2.0.16",
     "prisma": "^3.14.0",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.3"
   },
@@ -17,5 +18,16 @@
     "graphql": "^16.5.0",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1"
+  },
+  "scripts": {
+    "build": "yarn rimraf ./build && yarn tsc",
+    "start": "yarn ./build/index.js",
+    "dev": "nodemon",
+    "format": "eslint src/**/*.ts"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn format"
+    }
   }
 }
