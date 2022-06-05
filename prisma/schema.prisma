@@ -2,6 +2,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator typegraphql {
+  provider = "typegraphql-prisma"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -31,7 +35,7 @@ model Fragment {
   title       String
   description String?
   atomic      Boolean                @default(true)
-  music       MusicsOnFragments[]
+  musics      MusicsOnFragments[]
   playlists   FragmentsOnPlaylists[]
   createdAt   DateTime               @default(now())
   updatedAt   DateTime               @updatedAt
