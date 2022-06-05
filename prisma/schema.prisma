@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Playlist {
+  id          Int                    @id @default(autoincrement())
+  name        String
+  description String?
+  fragments   FragmentsOnPlaylists[]
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+}
+
+model FragmentsOnPlaylists {
+  fragment   Fragment @relation(fields: [fragmentId], references: [id])
+  fragmentId Int
+  playlist   Playlist @relation(fields: playlistId, references: [id])
+  playlistId Int
+  assignedAt DateTime @default(now())
+
+  @@id([fragmentId, playlistId])
+}
+
+model Fragment {
+  id          Int                    @id @default(autoincrement())
+  title       String
+  description String?
+  atomic      Boolean                @default(true)
+  music       MusicsOnFragments[]
+  playlists   FragmentsOnPlaylists[]
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+}
+
+model MusicsOnFragments {
+  music      Music    @relation(fields: [musicId], references: [id])
+  musicId    String
+  fragment   Fragment @relation(fields: fragmentId, references: [id])
+  fragmentId Int
+  assignedAt DateTime @default(now())
+
+  @@id([musicId, fragmentId])
+}
+
+model Music {
+  id         String              @id
+  name       String
+  fetchedAt  DateTime            @default(now())
+  fragments  MusicsOnFragments[]
+  fragmentId Int?
+}
